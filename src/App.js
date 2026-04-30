@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import Task from "./components/task";
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    console.log("Lista atualizada:", tasks);
+  }, [tasks]);
+
+  function addTask() {
+    setTasks([...tasks, input]);
+    setInput("");
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Lista de Tarefas</h1>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button onClick={addTask}>Adicionar</button>
+      <ul>
+        {tasks.map((task, index) => (
+          <Task key={index} text={task} />
+        ))}
+      </ul>
     </div>
   );
 }
